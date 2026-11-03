@@ -1,0 +1,287 @@
+
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HOTEL WORK PERMIT</title>
+<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+<style>
+:root {
+  --purple:#642b83;
+  --light:#f5eff9;
+  --dark:#321344;
+}
+* { box-sizing:border-box; }
+body {
+  margin:0;
+  font-family:Arial,sans-serif;
+  background:#f7f5fa;
+  color:#30243a;
+}
+header {
+  background:linear-gradient(135deg,#48205f,#8150a0);
+  color:white;
+  padding:30px 20px;
+  text-align:center;
+}
+.logo {
+  font-size:30px;
+  font-weight:bold;
+  letter-spacing:2px;
+}
+header p { margin-bottom:0; opacity:.85; }
+main {
+  max-width:900px;
+  margin:28px auto;
+  padding:0 16px;
+}
+h2 { color:var(--purple); }
+.menu {
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  gap:16px;
+}
+.card {
+  background:white;
+  border-radius:16px;
+  padding:24px;
+  box-shadow:0 4px 16px #32134412;
+  border:1px solid #eee5f3;
+}
+.card h3 { color:var(--purple); }
+.card p { color:#706779; line-height:1.5; }
+button {
+  background:var(--purple);
+  color:white;
+  border:0;
+  border-radius:9px;
+  padding:13px 18px;
+  width:100%;
+  font-size:15px;
+  cursor:pointer;
+}
+button:disabled { opacity:.5; }
+.secondary {
+  background:#eee6f3;
+  color:var(--purple);
+}
+form { display:grid; gap:13px; }
+input,textarea,select {
+  width:100%;
+  padding:12px;
+  border:1px solid #d9cde1;
+  border-radius:8px;
+  font-size:15px;
+  margin-top:6px;
+}
+label { font-weight:600; font-size:14px; }
+textarea { min-height:90px; }
+.hidden { display:none; }
+.note { color:#756c7c; font-size:13px; }
+footer {
+  text-align:center;
+  color:#887b91;
+  padding:25px;
+  font-size:12px;
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">HOTEL WORK PERMIT</div>
+  <p>CONTRACTOR SAFETY MANAGEMENT SYSTEM</p>
+</header>
+
+<main>
+  <section id="dashboard">
+    <h2>ระบบจัดการใบอนุญาตทำงาน</h2>
+    <p>ยินดีต้อนรับเข้าสู่ระบบควบคุมความปลอดภัยในการทำงาน</p>
+
+    <div class="menu">
+      <div class="card">
+        <h3>📋 ขอใบอนุญาตทำงาน</h3>
+        <p>สำหรับบริษัทผู้รับเหมาที่ต้องการเข้าปฏิบัติงานภายในโรงแรม</p>
+        <button onclick="showForm()">ยื่นคำขอใบอนุญาต</button>
+      </div>
+
+      <div class="card">
+        <h3>🔍 ตรวจสอบงาน</h3>
+        <p>สำหรับเจ้าหน้าที่ตรวจสอบและอนุมัติใบอนุญาต</p>
+        <button class="secondary" onclick="staffLogin()">Staff Login</button>
+      </div>
+
+      <div class="card">
+        <h3>👷 ข้อมูลผู้รับเหมา</h3>
+        <p>จัดการข้อมูลบริษัทและผู้ปฏิบัติงาน</p>
+        <button class="secondary" onclick="staffLogin()">Staff Login</button>
+      </div>
+
+      <div class="card">
+        <h3>📄 รายงาน PDF</h3>
+        <p>สำหรับเจ้าหน้าที่เรียกดูและจัดทำรายงาน</p>
+        <button class="secondary" onclick="staffLogin()">Staff Login</button>
+      </div>
+    </div>
+  </section>
+
+  <section id="request" class="card hidden">
+    <h2>แบบฟอร์มขอใบอนุญาตทำงาน</h2>
+    <p class="note">กรุณากรอกข้อมูลให้ครบถ้วนก่อนส่งคำขอ</p>
+
+    <form id="permitForm">
+      <label>ชื่อบริษัทผู้รับเหมา *
+        <input name="company_name" required maxlength="200">
+      </label>
+
+      <label>ชื่องาน *
+        <input name="work_title" required maxlength="200">
+      </label>
+
+      <label>รายละเอียดงาน
+        <textarea name="work_description" maxlength="2000"></textarea>
+      </label>
+
+      <label>แผนกที่รับผิดชอบ
+        <input name="department" maxlength="150">
+      </label>
+
+      <label>สถานที่ปฏิบัติงาน *
+        <input name="work_location" required maxlength="200">
+      </label>
+
+      <label>วันที่เริ่มงาน *
+        <input type="date" name="start_date" required>
+      </label>
+
+      <label>วันที่สิ้นสุดงาน
+        <input type="date" name="end_date">
+      </label>
+
+      <label>เวลาเริ่มงาน
+        <input type="time" name="start_time">
+      </label>
+
+      <label>เวลาสิ้นสุดงาน
+        <input type="time" name="end_time">
+      </label>
+
+      <label>จำนวนผู้ปฏิบัติงาน *
+        <input type="number" name="team_size" min="1" max="100" value="1" required>
+      </label>
+
+      <label>ชื่อผู้ประสานงาน *
+        <input name="contact_name" required maxlength="150">
+      </label>
+
+      <label>เบอร์โทรศัพท์ *
+        <input type="tel" name="contact_phone" required maxlength="30">
+      </label>
+
+      <div class="cf-turnstile"
+        data-sitekey="ใส่_SITE_KEY_ตรงนี้"
+        data-callback="turnstileSuccess"
+        data-expired-callback="turnstileExpired">
+      </div>
+
+      <button id="submitBtn" type="submit">ส่งคำขอใบอนุญาต</button>
+      <button type="button" class="secondary" onclick="showDashboard()">กลับหน้าหลัก</button>
+      <p class="note" id="result"></p>
+    </form>
+  </section>
+</main>
+
+<footer>
+  HOTEL WORK PERMIT | CONTRACTOR SAFETY MANAGEMENT
+</footer>
+
+<script>
+const FUNCTION_URL =
+"https://nldoneixnuapuzpeeznl.supabase.co/functions/v1/submit-work-permit";
+
+// ใส่ Publishable Key ของโปรเจกต์ Work Permit ตรงนี้
+const SUPABASE_PUBLISHABLE_KEY = "ใส่_PUBLISHABLE_KEY_ตรงนี้";
+
+let turnstileToken = "";
+
+function turnstileSuccess(token) {
+  turnstileToken = token;
+}
+
+function turnstileExpired() {
+  turnstileToken = "";
+}
+
+function showForm() {
+  document.getElementById("dashboard").classList.add("hidden");
+  document.getElementById("request").classList.remove("hidden");
+}
+
+function showDashboard() {
+  document.getElementById("request").classList.add("hidden");
+  document.getElementById("dashboard").classList.remove("hidden");
+}
+
+function staffLogin() {
+  alert("Staff Login จะเปิดให้ใช้งานในขั้นตอนถัดไป");
+}
+
+document.getElementById("permitForm").addEventListener("submit", async (e) => {
+  e.preventDefault();
+
+  const result = document.getElementById("result");
+  const button = document.getElementById("submitBtn");
+
+  if (!turnstileToken) {
+    result.textContent = "กรุณายืนยันความปลอดภัยก่อนส่งคำขอ";
+    return;
+  }
+
+  if (SUPABASE_PUBLISHABLE_KEY.startsWith("ใส่_")) {
+    result.textContent = "ระบบยังไม่ได้ตั้งค่า Publishable Key";
+    return;
+  }
+
+  const data = Object.fromEntries(new FormData(e.target).entries());
+  data.team_size = Number(data.team_size);
+  data.turnstile_token = turnstileToken;
+
+  button.disabled = true;
+  result.textContent = "กำลังส่งคำขอ...";
+
+  try {
+    const response = await fetch(FUNCTION_URL, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "apikey": SUPABASE_PUBLISHABLE_KEY,
+        "Authorization": "Bearer " + SUPABASE_PUBLISHABLE_KEY
+      },
+      body: JSON.stringify(data)
+    });
+
+    const answer = await response.json();
+
+    if (!response.ok) {
+      throw new Error(answer.error || "ส่งคำขอไม่สำเร็จ");
+    }
+
+    result.textContent =
+      "ส่งคำขอสำเร็จ! เลขที่ใบอนุญาต: " + answer.permit.permit_no;
+
+    e.target.reset();
+    turnstileToken = "";
+    if (window.turnstile) turnstile.reset();
+
+  } catch (error) {
+    result.textContent = "เกิดข้อผิดพลาด: " + error.message;
+    turnstileToken = "";
+    if (window.turnstile) turnstile.reset();
+  } finally {
+    button.disabled = false;
+  }
+});
+</script>
+</body>
+</html>
